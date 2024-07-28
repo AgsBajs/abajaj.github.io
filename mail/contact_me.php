@@ -3,21 +3,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Check for empty fields
-if(empty($_POST['name'])      ||
-   empty($_POST['email'])     ||
-   empty($_POST['phone'])     ||
-   empty($_POST['message'])   ||
-   !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
-{
+// Validate Inputs
+$name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+$email_address = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+$phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
+$message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+
+if(!$name || !$email_address || !$phone || !$message) {
     echo "No arguments Provided!";
     return false;
 }
-
-$name = strip_tags(htmlspecialchars($_POST['name']));
-$email_address = strip_tags(htmlspecialchars($_POST['email']));
-$phone = strip_tags(htmlspecialchars($_POST['phone']));
-$message = strip_tags(htmlspecialchars($_POST['message']));
 
 // Create the email and send the message
 $to = 'bajajagampreet@gmail.com'; // Your email address
